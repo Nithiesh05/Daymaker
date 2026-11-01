@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f8">
+  <meta name="description" content="A calm, focused space to plan your day and make steady progress.">
+  <title>Daymark — Make today count</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Daymark home"><span class="brand-mark">d</span><span>daymark<span class="brand-dot">.</span></span></a>
+      <div class="workspace-label">YOUR WORKSPACE</div>
+      <nav class="side-nav" aria-label="Task filters">
+        <button class="nav-item active" data-filter="all"><span class="nav-icon">◷</span><span>All tasks</span><span class="nav-count" id="all-count">0</span></button>
+        <button class="nav-item" data-filter="today"><span class="nav-icon">▣</span><span>Due today</span><span class="nav-count" id="today-count">0</span></button>
+        <button class="nav-item" data-filter="upcoming"><span class="nav-icon">⌑</span><span>Upcoming</span></button>
+        <button class="nav-item" data-filter="completed"><span class="nav-icon">✓</span><span>Completed</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="focus-card"><div class="focus-spark">✳</div><strong>Small steps add up.</strong><p>Keep showing up. You're doing great.</p><div class="focus-line"><span></span></div></div><div class="profile"><div class="avatar">Y</div><div><strong>Your workspace</strong><small>Personal plan</small></div><span class="profile-menu">···</span></div></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong id="crumb-title">All tasks</strong></div><div class="top-actions"><span class="today-label" id="today-label"></span><div class="top-avatar">Y</div></div></header>
+      <section class="page-wrap">
+        <div class="welcome-row"><div><div class="eyebrow" id="greeting">A FRESH START</div><h1 id="page-title">Your day, <em>in focus.</em></h1><p class="subtitle">A little progress each day adds up to big results.</p></div><button class="primary-button" id="new-task-button"><span>＋</span> New task</button></div>
+        <section class="overview" aria-label="Task overview"><div class="overview-main"><div class="overview-copy"><span class="overview-kicker">YOUR PROGRESS</span><strong><span id="progress-copy">Ready when you are</span><span class="overview-emoji">✦</span></strong><span class="overview-hint" id="progress-hint">Add a task to start building momentum.</span></div><div class="progress-area"><div class="progress-ring" id="progress-ring"><div class="ring-inner"><strong id="progress-percent">0%</strong><span>complete</span></div></div><div class="progress-legend"><span><i class="legend-dot done"></i><b id="completed-total">0</b> completed</span><span><i class="legend-dot remaining"></i><b id="remaining-total">0</b> remaining</span></div></div></div><div class="overview-side"><div class="side-stat"><span class="stat-icon amber">↗</span><div><span>Due today</span><strong id="due-total">0</strong></div></div><div class="side-stat"><span class="stat-icon green">✓</span><div><span>Completed</span><strong id="done-total">0</strong></div></div><div class="side-note">“The secret of getting ahead is getting started.”<small>— Mark Twain</small></div></div></section>
+        <section class="tasks-section"><div class="tasks-heading"><div><div class="eyebrow">YOUR LIST</div><h2 id="list-title">All tasks <span class="title-count" id="visible-count">0</span></h2></div><div class="task-controls"><label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Search tasks" aria-label="Search tasks"></label><label class="sort-select"><span class="sr-only">Sort tasks</span><select id="sort-select"><option value="priority">Priority</option><option value="due">Due date</option><option value="newest">Recently added</option><option value="alphabetical">Name</option></select></label></div></div><div id="task-list" class="task-list" aria-live="polite"></div><div class="empty-state" id="empty-state"><div class="empty-art"><span>✦</span><i></i><b></b></div><h3 id="empty-title">A clean slate.</h3><p id="empty-copy">Add your first task and make today count.</p><button class="primary-button" id="empty-add">＋ Create your first task</button></div></section>
+        <footer class="page-footer"><span>Made for a more focused you <span class="footer-heart">♥</span></span><span id="footer-date"></span></footer>
+      </section>
+    </main>
+  </div>
+  <div class="modal-backdrop" id="modal-backdrop" hidden><section class="task-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-top"><div><div class="eyebrow">MAKE IT HAPPEN</div><h2 id="modal-title">Create a task</h2></div><button class="icon-button" id="close-modal" aria-label="Close dialog">×</button></div><form id="task-form" novalidate><label class="field-label" for="task-title">Task name <span class="required">*</span></label><input id="task-title" name="title" maxlength="100" placeholder="What needs to get done?" required><small class="field-error" id="title-error"></small><label class="field-label" for="task-description">A few details <span class="optional">Optional</span></label><textarea id="task-description" name="description" rows="3" maxlength="500" placeholder="Add a note to your future self…"></textarea><small class="field-error" id="description-error"></small><div class="form-row"><div><label class="field-label" for="task-priority">Priority</label><select id="task-priority" name="priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></div><div><label class="field-label" for="task-due">Due date <span class="optional">Optional</span></label><input id="task-due" name="due_date" type="date"></div></div><div class="form-error" id="form-error" role="alert"></div><div class="modal-actions"><button type="button" class="secondary-button" id="cancel-modal">Cancel</button><button type="submit" class="primary-button" id="save-task">Create task <span>→</span></button></div></form></section></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
