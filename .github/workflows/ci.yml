@@ -71,5 +71,5 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Verify AWS identity
+      - name: Verify AWS identities
         run: aws sts get-caller-identity
